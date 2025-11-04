@@ -22,9 +22,9 @@ export default function Home() {
 
         <div className="flex flex-col gap-4">
           <Card>
-            <h2 className="text-xl font-semibold mb-4">Phase 3 완료</h2>
+            <h2 className="text-xl font-semibold mb-4">Phase 4 완료</h2>
             <p className="text-sm mb-4" style={{ color: 'var(--secondary)' }}>
-              레이아웃 & 공통 컴포넌트
+              인증 플로우 (로그인/회원가입/로그아웃)
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left text-sm">
