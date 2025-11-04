@@ -45,14 +45,10 @@ export default function SettingsPage() {
           <div className="space-y-3">
             <div className="p-3 rounded-lg" style={{ backgroundColor: 'var(--background)' }}>
               <p className="text-sm font-medium mb-1" style={{ color: 'var(--primary)' }}>
-                가입일
+                가족 코드
               </p>
-              <p className="text-sm" style={{ color: 'var(--secondary)' }}>
-                {new Date(currentUser.joinedAt).toLocaleDateString('ko-KR', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}
+              <p className="text-sm font-mono" style={{ color: 'var(--secondary)' }}>
+                {currentUser.familyCode}
               </p>
             </div>
           </div>
