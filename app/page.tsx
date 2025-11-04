@@ -1,39 +1,44 @@
 'use client';
 
 import { useApp } from '@/context/AppContext';
+import MainLayout from '@/components/layout/MainLayout';
+import Header from '@/components/layout/Header';
+import Card from '@/components/common/Card';
+import Avatar from '@/components/common/Avatar';
+import Button from '@/components/common/Button';
 
 export default function Home() {
   const { currentUser, users, deceasedProfiles, posts, comments } = useApp();
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center px-4 py-8">
-      <main className="flex flex-col items-center justify-center text-center max-w-4xl w-full">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2" style={{ color: 'var(--primary)' }}>
-            Famory
-          </h1>
-          <p className="text-lg" style={{ color: 'var(--secondary)' }}>
+    <MainLayout>
+      <Header title="Famory" />
+      <div className="px-4 py-6 max-w-2xl mx-auto">
+        <div className="mb-6 text-center">
+          <p className="text-lg mb-4" style={{ color: 'var(--secondary)' }}>
             가족과 함께 기억하는 디지털 앨범
           </p>
         </div>
 
-        <div className="flex flex-col gap-4 w-full">
-          <div
-            className="p-6 rounded-xl shadow-sm"
-            style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--border)', border: '1px solid' }}
-          >
-            <h2 className="text-xl font-semibold mb-4">Phase 2 완료</h2>
+        <div className="flex flex-col gap-4">
+          <Card>
+            <h2 className="text-xl font-semibold mb-4">Phase 3 완료</h2>
             <p className="text-sm mb-4" style={{ color: 'var(--secondary)' }}>
-              타입 정의 & 더미 데이터 & Context API
+              레이아웃 & 공통 컴포넌트
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left text-sm">
               <div className="p-4 rounded-lg" style={{ backgroundColor: 'var(--background)' }}>
                 <h3 className="font-semibold mb-2">현재 사용자</h3>
-                <p>{currentUser.name} ({currentUser.role})</p>
-                <p className="text-xs mt-1" style={{ color: 'var(--secondary)' }}>
-                  {currentUser.email}
-                </p>
+                <div className="flex items-center gap-2 mt-2">
+                  <Avatar src={currentUser.profileImage} alt={currentUser.name} size="sm" />
+                  <div>
+                    <p>{currentUser.name} ({currentUser.role})</p>
+                    <p className="text-xs" style={{ color: 'var(--secondary)' }}>
+                      {currentUser.email}
+                    </p>
+                  </div>
+                </div>
               </div>
 
               <div className="p-4 rounded-lg" style={{ backgroundColor: 'var(--background)' }}>
@@ -60,24 +65,48 @@ export default function Home() {
                 </p>
               </div>
             </div>
-          </div>
+          </Card>
+
+          <Card>
+            <h3 className="font-semibold mb-3">공통 컴포넌트 데모</h3>
+            <div className="flex flex-col gap-3">
+              <div>
+                <p className="text-sm mb-2" style={{ color: 'var(--secondary)' }}>Avatar 컴포넌트:</p>
+                <div className="flex items-center gap-2">
+                  <Avatar src={currentUser.profileImage} alt="Small" size="sm" />
+                  <Avatar src={currentUser.profileImage} alt="Medium" size="md" />
+                  <Avatar src={currentUser.profileImage} alt="Large" size="lg" />
+                  <Avatar src={currentUser.profileImage} alt="XLarge" size="xl" />
+                </div>
+              </div>
+              <div>
+                <p className="text-sm mb-2" style={{ color: 'var(--secondary)' }}>Button 컴포넌트:</p>
+                <div className="flex flex-wrap gap-2">
+                  <Button variant="primary" size="sm">Primary SM</Button>
+                  <Button variant="secondary" size="md">Secondary MD</Button>
+                  <Button variant="outline" size="md">Outline</Button>
+                  <Button variant="ghost" size="md">Ghost</Button>
+                </div>
+              </div>
+            </div>
+          </Card>
 
           <div className="grid grid-cols-2 gap-2 text-sm">
             <div className="p-3 rounded-lg" style={{ backgroundColor: 'var(--primary)' }}>
-              <p className="text-white font-medium">Primary</p>
+              <p className="text-white font-medium text-center">Primary</p>
             </div>
             <div className="p-3 rounded-lg" style={{ backgroundColor: 'var(--secondary)' }}>
-              <p className="text-white font-medium">Secondary</p>
+              <p className="text-white font-medium text-center">Secondary</p>
             </div>
             <div className="p-3 rounded-lg" style={{ backgroundColor: 'var(--ai-color)' }}>
-              <p className="font-medium">AI Color</p>
+              <p className="font-medium text-center">AI Color</p>
             </div>
             <div className="p-3 rounded-lg" style={{ backgroundColor: 'var(--error)' }}>
-              <p className="text-white font-medium">Error</p>
+              <p className="text-white font-medium text-center">Error</p>
             </div>
           </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </MainLayout>
   );
 }
