@@ -15,8 +15,8 @@ import {
 
 interface AppContextType {
   // Current user
-  currentUser: User;
-  setCurrentUser: (user: User) => void;
+  currentUser: User | null;
+  setCurrentUser: (user: User | null) => void;
 
   // Users
   users: User[];
@@ -49,7 +49,7 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export function AppProvider({ children }: { children: ReactNode }) {
-  const [currentUser, setCurrentUser] = useState<User>(initialUser);
+  const [currentUser, setCurrentUser] = useState<User | null>(null); // 초기값 null로 변경
   const [users] = useState<User[]>(dummyUsers);
   const [deceasedProfiles] = useState<DeceasedProfile[]>(dummyDeceasedProfiles);
   const [posts, setPosts] = useState<Post[]>(dummyPosts);
@@ -128,6 +128,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   };
 
   const getUnreadNotificationsCount = () => {
+    if (!currentUser) return 0;
     return notifications.filter((notif) => !notif.read && notif.userId === currentUser.id).length;
   };
 

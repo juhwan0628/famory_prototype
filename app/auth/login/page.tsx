@@ -1,8 +1,6 @@
 'use client';
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { useApp } from '@/context/AppContext';
 import Card from '@/components/common/Card';
 import Button from '@/components/common/Button';
@@ -10,31 +8,14 @@ import Button from '@/components/common/Button';
 export default function LoginPage() {
   const router = useRouter();
   const { users, setCurrentUser } = useApp();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-
-    // 더미 로그인: 이메일로 사용자 찾기
-    const user = users.find(u => u.email === email);
-
-    if (!user) {
-      setError('존재하지 않는 이메일입니다.');
-      return;
+  // 프로토타입: 더미 Google 로그인 (첫 번째 사용자로 자동 로그인)
+  const handleGoogleLogin = () => {
+    const dummyUser = users[0]; // 첫 번째 사용자 사용
+    if (dummyUser) {
+      setCurrentUser(dummyUser);
+      router.push('/');
     }
-
-    // 프로토타입이므로 비밀번호는 'password123'으로 고정
-    if (password !== 'password123') {
-      setError('비밀번호가 일치하지 않습니다. (힌트: password123)');
-      return;
-    }
-
-    // 로그인 성공
-    setCurrentUser(user);
-    router.push('/');
   };
 
   return (
@@ -50,83 +31,34 @@ export default function LoginPage() {
           </p>
         </div>
 
-        <form onSubmit={handleLogin} className="space-y-4">
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium mb-1"
-              style={{ color: 'var(--primary)' }}>
-              이메일
-            </label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="user@example.com"
-              required
-              className="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2"
-              style={{
-                backgroundColor: 'var(--background)',
-                borderColor: 'var(--border)',
-                color: 'var(--primary)'
-              }}
-            />
-          </div>
-
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium mb-1"
-              style={{ color: 'var(--primary)' }}>
-              비밀번호
-            </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              required
-              className="w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2"
-              style={{
-                backgroundColor: 'var(--background)',
-                borderColor: 'var(--border)',
-                color: 'var(--primary)'
-              }}
-            />
-          </div>
-
-          {error && (
-            <p className="text-sm text-center" style={{ color: 'var(--error)' }}>
-              {error}
-            </p>
-          )}
-
-          <Button type="submit" variant="primary" size="lg" fullWidth>
-            로그인
-          </Button>
-        </form>
-
-        <div className="mt-6 text-center">
-          <p className="text-sm" style={{ color: 'var(--secondary)' }}>
-            계정이 없으신가요?{' '}
-            <Link href="/auth/signup" className="font-medium hover:underline"
-              style={{ color: 'var(--primary)' }}>
-              회원가입
-            </Link>
-          </p>
+        <div className="space-y-4">
+          <button
+            onClick={handleGoogleLogin}
+            className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-lg border hover:shadow-md transition-all"
+            style={{
+              backgroundColor: 'white',
+              borderColor: 'var(--border)',
+              color: 'var(--primary)'
+            }}
+          >
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M19.6 10.227c0-.709-.064-1.39-.182-2.045H10v3.868h5.382a4.6 4.6 0 01-1.996 3.018v2.51h3.232c1.891-1.742 2.982-4.305 2.982-7.35z" fill="#4285F4"/>
+              <path d="M10 20c2.7 0 4.964-.895 6.618-2.423l-3.232-2.509c-.895.6-2.04.955-3.386.955-2.605 0-4.81-1.76-5.595-4.123H1.064v2.59A9.996 9.996 0 0010 20z" fill="#34A853"/>
+              <path d="M4.405 11.9c-.2-.6-.314-1.24-.314-1.9 0-.66.114-1.3.314-1.9V5.51H1.064A9.996 9.996 0 000 10c0 1.614.386 3.14 1.064 4.49l3.34-2.59z" fill="#FBBC05"/>
+              <path d="M10 3.977c1.468 0 2.786.505 3.823 1.496l2.868-2.868C14.959.99 12.695 0 10 0 6.09 0 2.71 2.24 1.064 5.51l3.34 2.59C5.19 5.736 7.395 3.977 10 3.977z" fill="#EA4335"/>
+            </svg>
+            <span className="font-medium">Google로 로그인</span>
+          </button>
         </div>
 
         <div className="mt-8 p-4 rounded-lg text-sm" style={{ backgroundColor: 'var(--background)' }}>
           <p className="font-semibold mb-2" style={{ color: 'var(--primary)' }}>
-            테스트 계정:
+            프로토타입 안내
           </p>
-          <ul className="space-y-1" style={{ color: 'var(--secondary)' }}>
-            {users.map((user) => (
-              <li key={user.id}>
-                <span className="font-medium">{user.name}</span>: {user.email}
-              </li>
-            ))}
-          </ul>
-          <p className="mt-2 text-xs" style={{ color: 'var(--secondary)' }}>
-            모든 계정 비밀번호: password123
+          <p style={{ color: 'var(--secondary)' }}>
+            현재는 프로토타입 버전입니다. Google 로그인 버튼을 클릭하면 테스트 계정({users[0]?.name})으로 자동 로그인됩니다.
+            <br /><br />
+            실제 Google 인증은 추후 구현될 예정입니다.
           </p>
         </div>
       </Card>

@@ -37,8 +37,7 @@ export default function SettingsPage() {
                 {currentUser.email}
               </p>
               <p className="text-xs mt-1" style={{ color: 'var(--secondary)' }}>
-                역할: {currentUser.role === 'family-member' ? '가족 구성원' :
-                       currentUser.role === 'admin' ? '관리자' : '게스트'}
+                역할: {currentUser.role === 'admin' ? '관리자' : '가족 구성원'}
               </p>
             </div>
           </div>

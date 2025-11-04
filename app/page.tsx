@@ -10,6 +10,10 @@ import Button from '@/components/common/Button';
 export default function Home() {
   const { currentUser, users, deceasedProfiles, posts, comments } = useApp();
 
+  if (!currentUser) {
+    return null; // AuthGuard에서 리다이렉트 처리
+  }
+
   return (
     <MainLayout>
       <Header title="Famory" />
